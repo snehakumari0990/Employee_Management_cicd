@@ -117,7 +117,7 @@ Kubernetes automatically handles:
 |---|---|---|
 | Member 1 | Application Developer | Flask app, database, CRUD routes, pytest tests |
 | Member 2 | Docker Engineer | Dockerfile, containerization, Docker Hub |
-| Member 3 (Sneha) | CI/CD and Kubernetes Engineer | Jenkins pipeline, GitHub integration, Kubernetes deployment |
+| Member 3 | CI/CD and Kubernetes Engineer | Jenkins pipeline, GitHub integration, Kubernetes deployment |
 
 ## Project Structure
 Employee_Management_cicd/
