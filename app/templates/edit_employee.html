@@ -1,45 +1,43 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Edit Employee · Empower{% endblock %}
 
+{% block content %}
 <div class="form-page">
-    <h2>Edit Employee — {{ employee.name }}</h2>
+    <h2>✏️ Edit Employee</h2>
+    <p class="form-subtitle">Update the details for {{ employee.name }}</p>
 
     <form method="POST" action="{{ url_for('main.edit_employee', id=employee.id) }}" class="employee-form">
-
         <div class="form-group">
-            <label for="name">Full Name</label>
-            <!-- value="{{ employee.name }}" pre-fills the form with existing data -->
+            <label for="name">👤 Full Name</label>
             <input type="text" id="name" name="name" required value="{{ employee.name }}">
         </div>
 
         <div class="form-group">
-            <label for="email">Email Address</label>
+            <label for="email">📧 Email Address</label>
             <input type="email" id="email" name="email" required value="{{ employee.email }}">
         </div>
 
         <div class="form-group">
-            <label for="department">Department</label>
+            <label for="department">🏢 Department</label>
             <input type="text" id="department" name="department" required value="{{ employee.department }}">
         </div>
 
         <div class="form-group">
-            <label for="position">Position</label>
+            <label for="position">💼 Position</label>
             <input type="text" id="position" name="position" required value="{{ employee.position }}">
         </div>
 
         <div class="form-group">
-            <label for="salary">Salary (₹)</label>
+            <label for="salary">💰 Salary (₹)</label>
             <input type="number" id="salary" name="salary" required
                    min="0" step="1000" value="{{ employee.salary }}">
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update Employee</button>
+            <button type="submit" class="btn btn-success">💾 Update Employee</button>
             <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancel</a>
         </div>
-
     </form>
 </div>
-
 {% endblock %}

@@ -1,64 +1,86 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Dashboard · Empower{% endblock %}
 
+{% block content %}
 <div class="page-header">
-    <h1>Employee Management System</h1>
-    <a href="{{ url_for('main.add_employee') }}" class="btn btn-primary">+ Add Employee</a>
+    <h1>Employee Dashboard</h1>
+    <a href="{{ url_for('main.add_employee') }}" class="btn btn-primary">➕ Add Employee</a>
 </div>
 
-<!-- Search form -->
+<!-- Statistics Bar -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <span class="label">👥 Total Employees</span>
+        <span class="value">{{ employees|length }}</span>
+    </div>
+    <span class="stat-divider">|</span>
+    <div class="stat-item">
+        <span class="label">🏢 Departments</span>
+        <span class="value">{{ employees|map(attribute='department')|unique|list|length }}</span>
+    </div>
+    <span class="stat-divider">|</span>
+    <div class="stat-item">
+        <span class="label">💰 Avg Salary</span>
+        <span class="value">₹{{ "{:,.0f}".format((employees|sum(attribute='salary') / employees|length) if employees else 0) }}</span>
+    </div>
+</div>
+
+<!-- Search Form -->
 <form action="{{ url_for('main.search') }}" method="GET" class="search-form">
-    <input type="text" name="query" placeholder="Search by name or department..."
-           value="{{ search_query or '' }}" class="search-input">
+    <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" name="query" placeholder="Search by name or department..."
+               value="{{ search_query or '' }}" class="search-input">
+    </div>
     <button type="submit" class="btn btn-secondary">Search</button>
     {% if search_query %}
-        <a href="{{ url_for('main.index') }}" class="btn btn-link">Clear</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-link">✕ Clear</a>
     {% endif %}
 </form>
 
-<!-- Employee table -->
+<!-- Employee Cards -->
 {% if employees %}
-<table class="employee-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Position</th>
-            <th>Salary</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for emp in employees %}
-        <tr>
-            <td>{{ emp.id }}</td>
-            <td>{{ emp.name }}</td>
-            <td>{{ emp.email }}</td>
-            <td>{{ emp.department }}</td>
-            <td>{{ emp.position }}</td>
-            <td>₹{{ "{:,.0f}".format(emp.salary) }}</td>
-            <td class="actions">
-                <a href="{{ url_for('main.edit_employee', id=emp.id) }}" class="btn btn-edit">Edit</a>
-                <form action="{{ url_for('main.delete_employee', id=emp.id) }}"
-                      method="POST" style="display:inline;"
-                      onsubmit="return confirm('Delete {{ emp.name }}? This cannot be undone.')">
-                    <button type="submit" class="btn btn-delete">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<p class="record-count">Showing {{ employees|length }} employee(s)</p>
-
+<div class="employee-grid">
+    {% for emp in employees %}
+    <div class="employee-card">
+        <div class="card-header">
+            <div class="employee-avatar">{{ emp.name[0].upper() }}</div>
+            <div class="employee-info">
+                <h3 class="employee-name">{{ emp.name }}</h3>
+                <span class="employee-position">{{ emp.position }}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-detail">
+                <span class="detail-label">📧 Email</span>
+                <span class="detail-value">{{ emp.email }}</span>
+            </div>
+            <div class="card-detail">
+                <span class="detail-label">🏷️ Department</span>
+                <span class="department-badge">{{ emp.department }}</span>
+            </div>
+            <div class="card-detail">
+                <span class="detail-label">💰 Salary</span>
+                <span class="salary-amount">₹{{ "{:,.0f}".format(emp.salary) }}</span>
+            </div>
+        </div>
+        <div class="card-actions">
+            <a href="{{ url_for('main.edit_employee', id=emp.id) }}" class="btn btn-edit">✏️ Edit</a>
+            <button onclick="confirmDelete({{ emp.id }}, '{{ emp.name }}')" class="btn btn-delete">🗑️ Delete</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+    Showing {{ employees|length }} employee{{ 's' if employees|length != 1 else '' }}
+</p>
 {% else %}
 <div class="empty-state">
-    <p>No employees found.</p>
-    <a href="{{ url_for('main.add_employee') }}" class="btn btn-primary">Add your first employee</a>
+    <div class="empty-icon">📋</div>
+    <h3>No Employees Found</h3>
+    <p>Start building your team by adding your first employee.</p>
+    <a href="{{ url_for('main.add_employee') }}" class="btn btn-primary">➕ Add Employee</a>
 </div>
 {% endif %}
-
 {% endblock %}
