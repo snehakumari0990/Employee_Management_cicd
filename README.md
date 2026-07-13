@@ -1,6 +1,6 @@
 # Employee Management System - CI/CD Pipeline
 
-A full stack Employee Management System built to demonstrate a complete, production-style Devops pipeline, from code commit to automated testing, containerization, and deployment on Kubernetes.
+A full-stack Employee Management System built to demonstrate a complete, production-style Devops pipeline, from code commit to automated testing, containerization, and deployment on Kubernetes.
 
 ## Project Overview
 
