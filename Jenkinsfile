@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "sneha0206/employee-app"
         DOCKER_TAG   = "${BUILD_NUMBER}"
-        KUBECONFIG   = "C:\\Windows\\System32\\config\\systemprofile\\.kube\\config"
     }
 
     stages {
@@ -59,23 +58,12 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo '🚀 Deploying to Kubernetes...'
-                bat '''
-                    kubectl apply -f k8s/deployment.yaml --validate=false
-                    kubectl apply -f k8s/service.yaml --validate=false
-                    kubectl rollout restart deployment/emp-cicd-app
-                    kubectl rollout status deployment/emp-cicd-app --timeout=180s
-                '''
-            }
-        }
     }
 
     post {
         success {
-            echo '🎉 Pipeline PASSED! New version deployed to Kubernetes.'
+            echo '🎉 Pipeline PASSED! New image pushed to Docker Hub.'
+            echo '👉 Teammate can now deploy to Kubernetes on her laptop.'
         }
         failure {
             echo '💥 Pipeline FAILED! Check the red stage above.'
