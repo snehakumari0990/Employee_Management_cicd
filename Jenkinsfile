@@ -9,14 +9,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '📥 Cloning repository from GitHub...'
+                echo ' Cloning repository from GitHub...'
                 checkout scm
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo '📦 Installing Python dependencies...'
+                echo 'Installing Python dependencies...'
                 bat '''
                     "C:\\Users\\TOSHIBA\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m venv venv
                     call venv\\Scripts\\activate.bat
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo '🧪 Running automated tests with pytest...'
+                echo 'Running automated tests with pytest...'
                 bat '''
                     call venv\\Scripts\\activate.bat
                     python -m pytest tests/ -v
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                echo '🐳 Building Docker image...'
+                echo ' Building Docker image...'
                 bat "docker build -t %DOCKER_IMAGE%:%DOCKER_TAG% ."
                 bat "docker tag %DOCKER_IMAGE%:%DOCKER_TAG% %DOCKER_IMAGE%:latest"
             }
@@ -46,7 +46,7 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                echo '⬆️ Pushing image to Docker Hub...'
+                echo ' Pushing image to Docker Hub...'
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds-teammate',
                     usernameVariable: 'DOCKER_USER',
