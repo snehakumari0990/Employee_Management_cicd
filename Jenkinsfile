@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo '📦 Installing Python dependencies...'
                 bat '''
-                    python -m venv venv
+                    "C:\\Users\\TOSHIBA\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m venv venv
                     call venv\\Scripts\\activate.bat
                     python -m pip install --upgrade pip
                     pip install -r requirements.txt
@@ -62,8 +62,7 @@ pipeline {
 
     post {
         success {
-            echo '🎉 Pipeline PASSED! New image pushed to Docker Hub.'
-            echo '👉 Teammate can now deploy to Kubernetes on her laptop.'
+            echo '🎉 Pipeline PASSED! Image pushed to Docker Hub.'
         }
         failure {
             echo '💥 Pipeline FAILED! Check the red stage above.'
