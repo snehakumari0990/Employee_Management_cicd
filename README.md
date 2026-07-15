@@ -4,7 +4,7 @@ A full-stack Employee Management System built to demonstrate a complete, product
 
 ## Project Overview
 
-This projectssss is not just a web application; it is a demonstration of real CI/CD (Continuous Integration / Continuous Delivery) pipeline. Every code push is automatically tested, packaged into a Docker container, pushed to Docker Hub, and deployed, with zero manual steps after `git push`.
+This projectttssss is not just a web application; it is a demonstration of real CI/CD (Continuous Integration / Continuous Delivery) pipeline. Every code push is automatically tested, packaged into a Docker container, pushed to Docker Hub, and deployed, with zero manual steps after `git push`.
 
 ## Architecture
 Developer's Laptop
